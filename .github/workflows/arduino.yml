@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: apt
-      apt-get install -y arduino arduino-mk
+      run: apt-get install -y arduino arduino-mk
     - name: make
       run: make
 #    - name: make check
