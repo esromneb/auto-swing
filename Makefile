@@ -7,8 +7,14 @@ ARDMK_DIR=/usr/share/arduino
 
 AVRDUDE_CONF=/usr/share/arduino/hardware/tools/avrdude.conf
 
-
 BOARD_TAG    = uno
+
+ARDUINO_SKETCHBOOK=.
+
+# You can specify space separated list of libraries that are needed for your sketch in the variable ARDUINO_LIBS.
+ARDUINO_LIBS=ArduinoSTL-1.3.3
+
+
 include $(ARDMK_DIR)/Arduino.mk
 
 
