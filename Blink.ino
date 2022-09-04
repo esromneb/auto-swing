@@ -4,10 +4,11 @@
   This example code is in the public domain.
  */
 
-void setup() {                
+void setup() {
 	// initialize the digital pin as an output.
 	// Pin 13 has an LED connected on most Arduino boards:
-	pinMode(13, OUTPUT);     
+	pinMode(13, OUTPUT);
+	Serial.begin(19200);
 }
 
 void loop() {
@@ -15,4 +16,5 @@ void loop() {
 	delay(300);              // wait for a second
 	digitalWrite(13, LOW);    // set the LED off
 	delay(200);              // wait for a second
+	Serial.print("Hello world.\r\n");
 }
