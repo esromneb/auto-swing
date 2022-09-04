@@ -5,10 +5,29 @@ ARDUINO_DIR=/usr/share/arduino
 ARDMK_DIR=/usr/share/arduino
 #     AVR_TOOLS_DIR – Directory where avr tools are installed
 
+AVRDUDE_CONF=/usr/share/arduino/hardware/tools/avrdude.conf
 
 
 BOARD_TAG    = uno
 include $(ARDMK_DIR)/Arduino.mk
+
+
+
+
+# I ran make download, and it couldn't find the correct path
+# So I patched it and this works
+# I suspect this will break if the board name or whatever else changes
+# flash:
+# 	/usr/share/arduino/hardware/tools/avr/bin/avrdude -q -V -p atmega328p -C /usr/share/arduino/hardware/tools/avrdude.conf -D -c arduino -b 115200 -P /dev/ttyACM0 \
+# 		-U flash:w:build-uno/auto-swing_.hex:i
+
+
+
+
+
+
+
+
 
 
 
