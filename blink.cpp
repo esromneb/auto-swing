@@ -19,9 +19,81 @@
 
 
 
+#if 0
+void setup() {
+  // initialize the digital pin as an output.
+  // Pin 13 has an LED connected on most Arduino boards:
+  pinMode(13, OUTPUT);
+  Serial.begin(38400);
+
+  // PWM
+  pinMode(3, OUTPUT);
+  pinMode(11, OUTPUT);
+  TCCR2A = _BV(COM2A1) | _BV(COM2B1) | _BV(WGM21) | _BV(WGM20);
+  TCCR2B = _BV(CS22);
+  OCR2A = 180;
+  OCR2B = 50;
+}
+
+char buf[64];
+
+int reads = 0;
+
+void loop() {
+  digitalWrite(13, HIGH);
+  delay(100);
+  digitalWrite(13, LOW);
+  delay(100);
+
+  snprintf(buf, 64, "Hello world %d\r\n", reads);
+  Serial.print(buf);
+
+  // analogWrite(3, (reads % 255) );
 
 
+  reads++;
+}
 
+#endif
+
+#if 0
+void setup() {
+  // initialize the digital pin as an output.
+  // Pin 13 has an LED connected on most Arduino boards:
+  pinMode(13, OUTPUT);
+  Serial.begin(38400);
+
+  // PWM
+  pinMode(3, OUTPUT);
+  // pinMode(11, OUTPUT);
+  // TCCR2A = _BV(COM2A1) | _BV(COM2B1) | _BV(WGM20);
+  // TCCR2B = _BV(CS22);
+  // OCR2A = 180;
+  // OCR2B = 50;
+}
+
+char buf[64];
+
+int reads = 0;
+
+void loop() {
+  digitalWrite(13, HIGH);
+  delay(100);
+  digitalWrite(13, LOW);
+  delay(100);
+
+  snprintf(buf, 64, "Hello world %d\r\n", reads);
+  Serial.print(buf);
+
+  analogWrite(3, (reads % 255) );
+
+
+  reads++;
+}
+
+#endif
+
+#if 1
 
 
 void setup() {
@@ -29,6 +101,15 @@ void setup() {
   // Pin 13 has an LED connected on most Arduino boards:
   pinMode(13, OUTPUT);
   Serial.begin(38400);
+
+  digitalWrite(13, LOW);
+
+
+  pinMode(3, OUTPUT);
+  pinMode(5, OUTPUT);
+
+  digitalWrite(3, LOW);
+  digitalWrite(5, LOW);
 }
 
 char buf[64];
@@ -47,9 +128,21 @@ void loop() {
   snprintf(buf, 64, "Hello world %d\r\n", reads);
   Serial.print(buf);
 
+  if( (reads%10) == 4) {
+    digitalWrite(3, HIGH);
+    delay(150);
+    digitalWrite(3, LOW);
+  } else if ((reads%10) == 9) {
+    digitalWrite(5, HIGH);
+    delay(150);
+    digitalWrite(5, LOW);
+  }
+
   reads++;
 
 }
+
+#endif
 
 
 
