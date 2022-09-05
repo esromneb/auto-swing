@@ -115,27 +115,36 @@ void setup() {
 char buf[64];
 
 int reads = 0;
+int odelay = 100;
+void ledon() {
+  digitalWrite(13, HIGH);
+  delay(odelay);
+}
+
+void ledoff() {
+  digitalWrite(13, LOW);
+  delay(odelay);
+}
 
 void loop() {
-  digitalWrite(13, HIGH);
-  delay(getdelay3());
-  
-  // delay(1000);
-  
-  
-  digitalWrite(13, LOW);
-  delay(200);
-  snprintf(buf, 64, "Hello world %d\r\n", reads);
-  Serial.print(buf);
 
-  if( (reads%10) == 4) {
+  
+  
+  // snprintf(buf, 64, "Hello world %d\r\n", reads);
+  // Serial.print(buf);
+
+  int pulse = 300;
+
+  if( (reads%2) == 0) {
     digitalWrite(3, HIGH);
-    delay(150);
+    delay(pulse);
     digitalWrite(3, LOW);
-  } else if ((reads%10) == 9) {
+    ledon();
+  } else if ((reads%2) == 1) {
     digitalWrite(5, HIGH);
-    delay(150);
+    delay(pulse);
     digitalWrite(5, LOW);
+    ledoff();
   }
 
   reads++;
