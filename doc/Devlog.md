@@ -23,3 +23,12 @@ can't find out what .ino vs .cpp does. Can't figure out how to have more than 1 
 # Downloads
 * https://www.arduinolibraries.info/libraries/arduino-stl
 
+
+
+# Include weirdness
+I can't get things inside the src directory to include proerly. Either it's:
+* use the library (annoying because of keywords)
+* put all files in root (annoying because of cleanliness)
+* use blob, best of both but lumps all recompiles into 1
+
+I think I will use blob. If things get out of hand I can go back to library or whatever else I want

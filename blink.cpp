@@ -13,7 +13,8 @@
 // #include <cout>
 // #include <Wire.h>
 
-#include "autoswinglib.hpp"
+// #include "autoswinglib.hpp"
+#include "blob.hpp"
 
 
 
@@ -36,7 +37,7 @@ int reads = 0;
 
 void loop() {
   digitalWrite(13, HIGH);
-  delay(getdelay());
+  delay(getdelay3());
   
   // delay(1000);
   
