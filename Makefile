@@ -12,7 +12,7 @@ BOARD_TAG    = uno
 ARDUINO_SKETCHBOOK=.
 
 # You can specify space separated list of libraries that are needed for your sketch in the variable ARDUINO_LIBS.
-ARDUINO_LIBS=ArduinoSTL-1.3.3
+ARDUINO_LIBS=ArduinoSTL-1.3.3 Wire
 
 
 include $(ARDMK_DIR)/Arduino.mk
