@@ -13,6 +13,8 @@ ARDUINO_SKETCHBOOK=.
 
 # You can specify space separated list of libraries that are needed for your sketch in the variable ARDUINO_LIBS.
 ARDUINO_LIBS=\
+autoswinglib \
+\
 ArduinoSTL-1.3.3 \
 MPU6050-0.5.0 \
 i2cdevlib-master \

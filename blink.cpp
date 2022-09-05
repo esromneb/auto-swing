@@ -13,6 +13,47 @@
 // #include <cout>
 // #include <Wire.h>
 
+#include "autoswinglib.hpp"
+
+
+
+
+
+
+
+
+
+void setup() {
+  // initialize the digital pin as an output.
+  // Pin 13 has an LED connected on most Arduino boards:
+  pinMode(13, OUTPUT);
+  Serial.begin(38400);
+}
+
+char buf[64];
+
+int reads = 0;
+
+void loop() {
+  digitalWrite(13, HIGH);
+  delay(getdelay());
+  
+  // delay(1000);
+  
+  
+  digitalWrite(13, LOW);
+  delay(200);
+  snprintf(buf, 64, "Hello world %d\r\n", reads);
+  Serial.print(buf);
+
+  reads++;
+
+}
+
+
+
+#if 0
+
 #include "I2Cdev.h"
 #include "MPU6050.h"
 
@@ -118,7 +159,7 @@ void loop() {
     digitalWrite(LED_PIN, blinkState);
 }
 
-
+#endif
 
 
 

@@ -10,6 +10,10 @@ can't find out what .ino vs .cpp does. Can't figure out how to have more than 1 
 * According to this, our board does not need the level shift https://steemit.com/utopian-io/@drencolha/mpu6050-3-axis-gyroscope-and-accelerometer-module-setup-arduino-library-use-shown-with-an-example-project-tutorial
 
 
+# make library
+* how to setup keywords.txt etc http://mc-computing.com/Hardware_Platforms/Arduino/Libraries.html
+
+
 # MPU
 * Examples - https://github.com/ElectronicCats/mpu6050/tree/master/examples
 * https://www.arduino.cc/reference/en/libraries/mpu6050/

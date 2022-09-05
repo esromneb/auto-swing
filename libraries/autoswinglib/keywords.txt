@@ -1,0 +1,1 @@
+getdelay	KEYWORD2
