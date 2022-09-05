@@ -126,26 +126,53 @@ void ledoff() {
   delay(odelay);
 }
 
-void loop() {
-
+void handleChar() {
+  // Serial.flush();
+  if(!Serial.available()) {
+    return;
+  }
+  const char c = Serial.read();
   
-  
-  // snprintf(buf, 64, "Hello world %d\r\n", reads);
-  // Serial.print(buf);
-
   int pulse = 300;
 
-  if( (reads%2) == 0) {
+  if(c == 'a') {
     digitalWrite(3, HIGH);
     delay(pulse);
     digitalWrite(3, LOW);
     ledon();
-  } else if ((reads%2) == 1) {
+  } else if (c == 's') {
     digitalWrite(5, HIGH);
     delay(pulse);
     digitalWrite(5, LOW);
     ledoff();
   }
+
+  // snprintf(buf, 64, "read '%c'\r\n", c);
+  // Serial.print(buf);
+}
+
+void loop() {
+
+  // snprintf(buf, 64, "Hello world %d\r\n", reads);
+  // Serial.print(buf);
+
+
+  handleChar();
+
+
+  // if(false) {
+  //   if( (reads%2) == 0) {
+  //     digitalWrite(3, HIGH);
+  //     delay(pulse);
+  //     digitalWrite(3, LOW);
+  //     ledon();
+  //   } else if ((reads%2) == 1) {
+  //     digitalWrite(5, HIGH);
+  //     delay(pulse);
+  //     digitalWrite(5, LOW);
+  //     ledoff();
+  //   }
+  // }
 
   reads++;
 
