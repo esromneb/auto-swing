@@ -43,21 +43,27 @@ void handleChar2() {
   static char cp = ' ';
   
   // int pulse = 300;
+  const int bumpers = 4;
+  const int bias = 10;
+
+  int dafter = 150;
 
   if(c == 'a') {
     // digitalWrite(3, HIGH);
     // delay(pulse);
     // digitalWrite(3, LOW);
     // ledon();
-    myservo.write(0);
+    myservo.write(0+bumpers);
+    delay(dafter);
   } else if (c == 's') {
     // digitalWrite(5, HIGH);
     // delay(pulse);
     // digitalWrite(5, LOW);
     // ledoff();
-    myservo.write(180);
+    myservo.write(180-bumpers);
+    delay(dafter);
   } else {
-    myservo.write(90);
+    myservo.write(90+bias);
   }
 
   // snprintf(buf, 64, "read '%c'\r\n", c);
