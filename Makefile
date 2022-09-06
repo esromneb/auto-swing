@@ -23,6 +23,13 @@ Servo-1.1.8 \
 Wire \
 
 
+# Copied from the command line output
+EXISTING_CFLAGS=-std=gnu++11 -fno-threadsafe-statics -flto
+
+CXXFLAGS_STD= $(EXISTING_CFLAGS) -Wno-error
+
+
+
 include $(ARDMK_DIR)/Arduino.mk
 
 
