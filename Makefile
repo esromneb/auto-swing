@@ -18,8 +18,9 @@ autoswinglib \
 ArduinoSTL-1.3.3 \
 MPU6050-0.5.0 \
 i2cdevlib-master \
+Servo-1.1.8 \
 \
-Wire
+Wire \
 
 
 include $(ARDMK_DIR)/Arduino.mk
