@@ -30,18 +30,54 @@ int pos = 0;    // variable to store the servo position
 
 void setup() {
   myservo.attach(3);  // attaches the servo on pin 9 to the servo object
+  Serial.begin(38400);
+}
+
+void handleChar2() {
+  // Serial.flush();
+  char c = 'x';
+  if(Serial.available()) {
+    c = Serial.read();
+    // return;
+  }
+  static char cp = ' ';
+  
+  // int pulse = 300;
+
+  if(c == 'a') {
+    // digitalWrite(3, HIGH);
+    // delay(pulse);
+    // digitalWrite(3, LOW);
+    // ledon();
+    myservo.write(0);
+  } else if (c == 's') {
+    // digitalWrite(5, HIGH);
+    // delay(pulse);
+    // digitalWrite(5, LOW);
+    // ledoff();
+    myservo.write(180);
+  } else {
+    myservo.write(90);
+  }
+
+  // snprintf(buf, 64, "read '%c'\r\n", c);
+  // Serial.print(buf);
 }
 
 void loop() {
-  for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
-  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
+  // for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
+  //   // in steps of 1 degree
+  //   myservo.write(pos);              // tell servo to go to position in variable 'pos'
+  //   delay(15);                       // waits 15ms for the servo to reach the position
+  // }
+  // for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
+  //   myservo.write(pos);              // tell servo to go to position in variable 'pos'
+  //   delay(15);                       // waits 15ms for the servo to reach the position
+  // }
+  // myservo.write(90);
+    
+  handleChar2();
+  delay(150);
 }
 
 #endif
