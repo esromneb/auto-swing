@@ -26,7 +26,9 @@ Wire \
 # Copied from the command line output
 EXISTING_CFLAGS=-std=gnu++11 -fno-threadsafe-statics -flto
 
-CXXFLAGS_STD= $(EXISTING_CFLAGS) -Wno-error
+# adding no werror to fix differences between actions and local
+# they are running on different versions of arduino 
+CXXFLAGS_STD= $(EXISTING_CFLAGS) -Wno-error -Wno-unused-variable
 
 
 
