@@ -21,7 +21,7 @@
 
 
 
-#if 1
+#if 0
 
 Servo myservo;  // create servo object to control a servo
 // twelve servo objects can be created on most boards
@@ -253,7 +253,32 @@ void loop() {
 
 #endif
 
+#if 1
 
+char buf[64];
+
+
+
+void setup() {
+  // Serial.begin(250000);
+  Serial.begin(230400);
+  // Serial.begin(460800);
+  
+}
+
+void loop() {
+  // Serial.print("loop\r\n");
+
+  printf("loop asdlkfjasdlfkjasdflkjasdflkjasdlkfjasdlfkjasdlfkjsdfasdf\r\n");
+
+
+  // snprintf(buf, 64, "Hello world %d\r\n", reads);
+  // Serial.print(buf);
+
+
+  // delay(700);
+}
+#endif
 
 #if 0
 
