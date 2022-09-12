@@ -5,6 +5,7 @@
 enum control_state_t {
     STATE_IDLE,
     STATE_CHAR,
+    STATE_DELAY_AFTER_CHAR,
 };
 
 enum control_ev_t {
@@ -20,6 +21,7 @@ using fsm_t = myfsm_t<control_state_t, control_ev_t, control_t>;
 struct control_t {
     Servo myservo;
     long int last_char_time = 0;
+    long int delay_time = 0;
 
     fsm_t fsm;
 

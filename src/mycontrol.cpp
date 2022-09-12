@@ -2,22 +2,93 @@
 
 
 static void idle_enter(fsm_t& fsm) {
-    control_t* const control = fsm.vp;
+
+
 }
 
 static void idle_process(fsm_t& fsm, const control_ev_t ev) {
     control_t* const control = fsm.vp;
-    
+
+    if(ev == EV_RUN) {
+        long int now = millis();
+
+        long int dly = 150;
+
+        if( (now-control->last_char_time) >= dly ) {
+            fsm.go(STATE_CHAR);
+            // handleChar2();
+            control->last_char_time = now;
+        }
+    }
 }
 
 static void char_enter(fsm_t& fsm) {
     control_t* const control = fsm.vp;
 
+    printf("char_enter\r\n");
+
+
+    char c = 'x';
+    if(Serial.available()) {
+        c = Serial.read();
+        // return;
+    }
+    static char cp = ' ';
+
+    // int pulse = 300;
+    const int bumpers = 4;
+    const int bias = 10;
+
+    // int dafter = 150;
+
+    if(c == 'a') {
+        // digitalWrite(3, HIGH);
+        // delay(pulse);
+        // digitalWrite(3, LOW);
+        // ledon();
+        control->myservo.write(0+bumpers);
+        // delay(dafter);
+        fsm.go(STATE_DELAY_AFTER_CHAR);
+    } else if (c == 's') {
+        // digitalWrite(5, HIGH);
+        // delay(pulse);
+        // digitalWrite(5, LOW);
+        // ledoff();
+        control->myservo.write(180-bumpers);
+        fsm.go(STATE_DELAY_AFTER_CHAR);
+        // delay(dafter);
+    } else {
+        control->myservo.write(90+bias);
+        fsm.go(STATE_IDLE);
+    }
 }
 
 static void char_process(fsm_t& fsm, const control_ev_t ev) {
     control_t* const control = fsm.vp;
-    
+}
+
+// FIXME This is never entering
+static void delay_enter(fsm_t& fsm) {
+    control_t* const control = fsm.vp;
+    control->delay_time = millis();
+    printf("delay_enter\r\n");
+}
+
+static void delay_process(fsm_t& fsm, const control_ev_t ev) {
+    control_t* const control = fsm.vp;
+
+    if(ev != EV_RUN) {
+        return;
+    }
+
+    int dafter = 150;
+
+    long int now = millis();
+
+    if( (now-control->delay_time) >= dafter ) {
+        fsm.go(STATE_IDLE);
+        printf("delay_exit\r\n");
+    }
 }
 
 
@@ -25,7 +96,12 @@ static void char_process(fsm_t& fsm, const control_ev_t ev) {
 void control_t::setup(void) {
     myservo.attach(3);  // attaches the servo on pin 9 to the servo object
 
-    // fsm.init(44);
+    fsm.init({
+        {STATE_IDLE,             idle_enter,    idle_process},
+        {STATE_CHAR,             char_enter,    char_process},
+        {STATE_DELAY_AFTER_CHAR, delay_enter,   delay_process},
+        }, this);
+
 }
 
 void control_t::handleChar2() {
@@ -66,12 +142,13 @@ void control_t::handleChar2() {
 }
 
 void control_t::tick(void) {
-    long int now = millis();
+    fsm.postTick(EV_RUN);
+    // long int now = millis();
 
-    long int dly = 150;
+    // long int dly = 150;
 
-    if( (now-last_char_time) >= dly ) {
-        handleChar2();
-        last_char_time = now;
-    }
+    // if( (now-last_char_time) >= dly ) {
+    //     handleChar2();
+    //     last_char_time = now;
+    // }
 }
