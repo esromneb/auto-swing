@@ -2,6 +2,10 @@
 
 #include <vector>
 
+#ifdef TEST_ENVIRONMENT
+#include <stdio.h>
+#endif
+
 typedef void (*cb_t)(int prev);
 
 template <typename ST_T, typename EV_T>
