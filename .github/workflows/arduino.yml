@@ -7,11 +7,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    container:
+      image: esromneb/arduino:1
 
     steps:
     - uses: actions/checkout@v3
-    - name: apt
-      run: sudo apt install -y arduino arduino-mk
     - name: make
       run: make
 #    - name: make check
