@@ -4,7 +4,7 @@
 void control_t::setup(void) {
     myservo.attach(3);  // attaches the servo on pin 9 to the servo object
 
-    fsm.init(44);
+    // fsm.init(44);
 }
 
 void control_t::handleChar2() {
