@@ -1,5 +1,7 @@
 #include "myposition.hpp"
 
+#define OUTPUT_READABLE_ACCELGYRO
+
 
 void position_t::setup(void) {
     // join I2C bus (I2Cdev library doesn't do this automatically)
@@ -12,7 +14,7 @@ void position_t::setup(void) {
     // initialize serial communication
     // (38400 chosen because it works as well at 8MHz as it does at 16MHz, but
     // it's really up to you depending on your project)
-    Serial.begin(38400);
+    // Serial.begin(230400);
 
     // initialize device
     Serial.println("Initializing I2C devices...");
@@ -49,5 +51,44 @@ void position_t::setup(void) {
     // pinMode(LED_PIN, OUTPUT);
 }
 void position_t::tick(void) {
-    
+    long int time = millis();
+        // read raw accel/gyro measurements from device
+    accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+
+    // these methods (and a few others) are also available
+    //accelgyro.getAcceleration(&ax, &ay, &az);
+    //accelgyro.getRotation(&gx, &gy, &gz);
+
+    // display tab-separated accel/gyro x/y/z values
+    Serial.print(time); Serial.print(",");
+    Serial.print(ax); Serial.print(",");
+    Serial.print(ay); Serial.print(",");
+    Serial.print(az); Serial.print(",");
+    Serial.print(gx); Serial.print(",");
+    Serial.print(gy); Serial.print(",");
+    Serial.println(gz);
+
+    // #ifdef OUTPUT_READABLE_ACCELGYRO
+    //     // display tab-separated accel/gyro x/y/z values
+    //     Serial.print("a/g:\t");
+    //     Serial.print(ax); Serial.print("\t");
+    //     Serial.print(ay); Serial.print("\t");
+    //     Serial.print(az); Serial.print("\t");
+    //     Serial.print(gx); Serial.print("\t");
+    //     Serial.print(gy); Serial.print("\t");
+    //     Serial.println(gz);
+    // #endif
+
+    // #ifdef OUTPUT_BINARY_ACCELGYRO
+    //     Serial.write((uint8_t)(ax >> 8)); Serial.write((uint8_t)(ax & 0xFF));
+    //     Serial.write((uint8_t)(ay >> 8)); Serial.write((uint8_t)(ay & 0xFF));
+    //     Serial.write((uint8_t)(az >> 8)); Serial.write((uint8_t)(az & 0xFF));
+    //     Serial.write((uint8_t)(gx >> 8)); Serial.write((uint8_t)(gx & 0xFF));
+    //     Serial.write((uint8_t)(gy >> 8)); Serial.write((uint8_t)(gy & 0xFF));
+    //     Serial.write((uint8_t)(gz >> 8)); Serial.write((uint8_t)(gz & 0xFF));
+    // #endif
+
+    // blink LED to indicate activity
+    // blinkState = !blinkState;
+    // digitalWrite(LED_PIN, blinkState);
 }

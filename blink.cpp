@@ -30,7 +30,7 @@ int pos = 0;    // variable to store the servo position
 
 void setup() {
   myservo.attach(3);  // attaches the servo on pin 9 to the servo object
-  Serial.begin(38400);
+  Serial.begin(230400);
 }
 
 void handleChar2() {
@@ -253,7 +253,7 @@ void loop() {
 
 #endif
 
-#if 1
+#if 0
 
 char buf[64];
 
@@ -277,6 +277,21 @@ void loop() {
 
 
   // delay(700);
+}
+#endif
+
+
+
+#if 1
+
+position_t pos;
+void setup() {
+    Serial.begin(230400);
+
+    pos.setup();
+}
+void loop() {
+    pos.tick();
 }
 #endif
 
@@ -317,7 +332,7 @@ void setup() {
     // initialize serial communication
     // (38400 chosen because it works as well at 8MHz as it does at 16MHz, but
     // it's really up to you depending on your project)
-    Serial.begin(38400);
+    Serial.begin(230400);
 
     // initialize device
     Serial.println("Initializing I2C devices...");
