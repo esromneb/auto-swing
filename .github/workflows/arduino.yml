@@ -15,7 +15,7 @@ jobs:
       with:
         submodules: recursive
     - name: compile test
-      run: mkdir -p test/build && cd test/build && cmake ..
+      run: mkdir -p test/build && cd test/build && cmake .. && make -j
     - name: run test
       run: cd test/build && ./test
     - name: compile target
