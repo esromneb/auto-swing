@@ -39,6 +39,7 @@ set(CMAKE_CXX_FLAGS
 -Wtrampolines \
 -Wvariadic-macros \
 -Wvirtual-inheritance \
+-Wno-unused-parameter \
 "
 )
 

@@ -7,48 +7,51 @@
 #include <stdio.h>
 #endif
 
+//------------------------------------------------------------------------------
+// FSM with two enums
+// pass functions or lambdas
+// idle is allowed to be NULL, but process must be defined
+// order of states passed can be sparse and un-ordered
+//------------------------------------------------------------------------------
+
 // forward declare
 template <typename ST_T, typename EV_T>
 struct myfsm_t;
 
 // type of function for entering a state
-typedef void (*cb_enter_t)(void);
-
-// type of function for processing
 // we have to put the "using" keyword instead of "typedef"
 // because it allows us to pass the template type through
 template <typename ST_T, typename EV_T>
+using cb_enter_t = void (*)(myfsm_t<ST_T, EV_T>& fsm);
+
+// type of function for processing
+template <typename ST_T, typename EV_T>
 using cb_process_t = void (*)(myfsm_t<ST_T, EV_T>& fsm, const EV_T ev);
 
-// template <typename EV_T>
-// typedef void (*cb_process_t)(const EV_T ev);
-
+// A record, this is what is loaded into the init() function
+// as well as used for local storage inside the class
 template <typename ST_T, typename EV_T>
 struct state_record_t {
     ST_T state;
-    cb_enter_t enter;
+    cb_enter_t<ST_T, EV_T> enter;
     cb_process_t<ST_T, EV_T> process;
 };
 
 template <typename ST_T, typename EV_T>
 struct myfsm_t {
-
-    // T* ptr;
-    int size;
-
     std::vector<state_record_t<ST_T, EV_T>> states;
     std::vector<EV_T> ev_q;
 
     ST_T state = (ST_T)0;
 
-    // Array(T arr[], int s);
-    // void print();
+    bool changing = false;
+
     void init(std::vector<state_record_t<ST_T, EV_T>> _states);
     void post(const EV_T ev);
+    void postTick(const EV_T ev);
     void go(const ST_T st);
     void tick(void);
 };
-
 
 
 // argument to this function does not care about the order of the states
@@ -58,29 +61,23 @@ void myfsm_t<ST_T,EV_T>::init(std::vector<state_record_t<ST_T, EV_T>> _states) {
 
     size_t max = 0;
     for(const auto s : _states) {
-        const size_t sint = (size_t)s.state; // convert to enum
+        const size_t sint = (size_t)s.state; // convert to size_t from enum
         if(sint > max) {
             max = sint;
         }
     }
+    // printf("Found max %zu\n", max);
 
-    printf("Found max %zu\n", max);
-    // printf("in init\r\n");
-    // list.push_back(f);
+    states.resize(max+1); // +1 to account for max vs count
 
-    // for( const auto w : list) {
-    //     printf("%d\n", w);
-    // }
+    for(const auto s : _states) {
+        const size_t sint = (size_t)s.state; // convert to size_t from enum
 
-    // std::tuple<int, int> x;
-    // x = {1,3};
-    // std::function a;
-
-    // void (*mfn)(void) = [](void) {
-    //     printf("in my fn()\r\n");
-    // };
-
-    // mfn();
+        if(s.process == NULL) {
+            printf("illegal NULL process for state %zu\r\n", sint);
+        }
+        states[sint] = {s.state, s.enter, s.process};
+    }
 }
 
 
@@ -90,6 +87,37 @@ void myfsm_t<ST_T,EV_T>::post(const EV_T ev) {
 }
 
 template <typename ST_T, typename EV_T>
+void myfsm_t<ST_T,EV_T>::postTick(const EV_T ev) {
+    ev_q.push_back(ev);
+    tick();
+}
+
+template <typename ST_T, typename EV_T>
 void myfsm_t<ST_T,EV_T>::go(const ST_T st) {
     state = st;
+    changing = true;
+}
+
+template <typename ST_T, typename EV_T>
+void myfsm_t<ST_T,EV_T>::tick(void) {
+    while(ev_q.size() != 0) {
+        const size_t sint = (size_t)state; // convert to size_t from enum
+
+        const state_record_t<ST_T, EV_T> record = states[sint];
+
+        EV_T ev = ev_q.front();
+        // printf("Got event %zu\r\n", (size_t)ev);
+        ev_q.erase(ev_q.begin());
+
+
+        record.process(*this, ev);
+        if(changing) {
+            const size_t sint2 = (size_t)state; // convert to size_t from enum
+            const state_record_t<ST_T, EV_T> record2 = states[sint2];
+
+            changing = false;
+
+            record2.enter(*this);
+        }
+    }
 }
