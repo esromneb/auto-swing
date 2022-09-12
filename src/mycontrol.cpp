@@ -1,6 +1,27 @@
 #include "mycontrol.hpp"
 
 
+static void idle_enter(fsm_t& fsm) {
+    control_t* const control = fsm.vp;
+}
+
+static void idle_process(fsm_t& fsm, const control_ev_t ev) {
+    control_t* const control = fsm.vp;
+    
+}
+
+static void char_enter(fsm_t& fsm) {
+    control_t* const control = fsm.vp;
+
+}
+
+static void char_process(fsm_t& fsm, const control_ev_t ev) {
+    control_t* const control = fsm.vp;
+    
+}
+
+
+
 void control_t::setup(void) {
     myservo.attach(3);  // attaches the servo on pin 9 to the servo object
 

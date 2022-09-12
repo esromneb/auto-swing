@@ -28,7 +28,7 @@ static size_t count_b = 0;
 
 static void test_fsm(void) {
 
-    using fsm_t = myfsm_t<test_state_t, test_ev_t>;
+    using fsm_t = myfsm_t<test_state_t, test_ev_t, int>;
 
     rc::check("fsm basics", [](void) {
 
