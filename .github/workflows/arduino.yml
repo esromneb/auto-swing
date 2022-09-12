@@ -12,8 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-        with:
-          submodules: recursive
+      with:
+        submodules: recursive
     - name: compile test
       run: mkdir -p test/build && cd test/build && cmake ..
     - name: run test
