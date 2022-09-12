@@ -7,14 +7,18 @@
 #include <stdio.h>
 #endif
 
+// forward declare
+template <typename ST_T, typename EV_T>
+struct myfsm_t;
+
 // type of function for entering a state
 typedef void (*cb_enter_t)(void);
 
 // type of function for processing
 // we have to put the "using" keyword instead of "typedef"
 // because it allows us to pass the template type through
-template <typename EV_T>
-using cb_process_t = void (*)(const EV_T ev);
+template <typename ST_T, typename EV_T>
+using cb_process_t = void (*)(myfsm_t<ST_T, EV_T>& fsm, const EV_T ev);
 
 // template <typename EV_T>
 // typedef void (*cb_process_t)(const EV_T ev);
@@ -23,7 +27,7 @@ template <typename ST_T, typename EV_T>
 struct state_record_t {
     ST_T state;
     cb_enter_t enter;
-    cb_process_t<EV_T> process;
+    cb_process_t<ST_T, EV_T> process;
 };
 
 template <typename ST_T, typename EV_T>
@@ -35,11 +39,11 @@ struct myfsm_t {
     std::vector<state_record_t<ST_T, EV_T>> states;
     std::vector<EV_T> ev_q;
 
-    ST_T state = 0;
+    ST_T state = (ST_T)0;
 
     // Array(T arr[], int s);
     // void print();
-    void init(std::vector<state_record_t<ST_T, EV_T>> states);
+    void init(std::vector<state_record_t<ST_T, EV_T>> _states);
     void post(const EV_T ev);
     void go(const ST_T st);
     void tick(void);
@@ -50,10 +54,10 @@ struct myfsm_t {
 // argument to this function does not care about the order of the states
 // internally we will re-order these
 template <typename ST_T, typename EV_T>
-void myfsm_t<ST_T,EV_T>::init(std::vector<state_record_t<ST_T, EV_T>> states) {
+void myfsm_t<ST_T,EV_T>::init(std::vector<state_record_t<ST_T, EV_T>> _states) {
 
     size_t max = 0;
-    for(const auto s : states) {
+    for(const auto s : _states) {
         const size_t sint = (size_t)s.state; // convert to enum
         if(sint > max) {
             max = sint;

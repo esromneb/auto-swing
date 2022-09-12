@@ -24,23 +24,26 @@ enum test_ev_t {
 
 
 
-void test_fsm(void) {
+static void test_fsm(void) {
+
+    using fsm_t = myfsm_t<test_state_t, test_ev_t>;
+
     rc::check("fsm basics", [](void) {
 
         auto idle_enter = [](void) {
             cout << "idle_enter\n";
         };
 
-        auto idle_process = [](const test_ev_t ev) {
+        auto idle_process = [](fsm_t& fsm, const test_ev_t ev) {
             switch(ev) {
                 case EV_RESET:
-                    go(STATE_IDLE);
+                    fsm.go(STATE_IDLE);
                     break;
                 case EV_GOTA:
-                    go(STATE_GOTA);
+                    fsm.go(STATE_GOTA);
                     break;
                 case EV_GOTB:
-                    go(STATE_GOTB);
+                    fsm.go(STATE_GOTB);
                     break;
             }
         };
@@ -55,7 +58,7 @@ void test_fsm(void) {
 
 
 
-        myfsm_t<control_state_t, control_ev_t> fsm;
+        fsm_t fsm;
         fsm.init({
             {STATE_IDLE, idle_enter, idle_process},
             {STATE_GOTA, a_enter, idle_process},
@@ -67,16 +70,17 @@ void test_fsm(void) {
 
 
 int main(void) {
-    cout << "in test\n";
 
-    rc::check("rc is working?", [](void) {
+    test_fsm();
+    // cout << "in test\n";
 
-        const uint32_t a_word = *rc::gen::inRange(0u, 0x3u);
-        cout << "value: " << a_word << "\n";
+    // rc::check("rc is working?", [](void) {
 
-        RC_ASSERT(
-            1 == 1
-            );
+    //     const uint32_t a_word = *rc::gen::inRange(0u, 0x3u);
+    //     cout << "value: " << a_word << "\n";
 
-    });
+    //     RC_ASSERT(
+    //         1 == 1
+    //         );
+    // });
 }
