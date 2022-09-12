@@ -19,6 +19,24 @@
 
 
 
+#if 1
+
+position_t pos;
+control_t control;
+
+void setup() {
+    Serial.begin(230400);
+
+    pos.setup();
+    control.setup();
+}
+void loop() {
+    pos.tick();
+    control.tick();
+}
+
+#endif
+
 
 
 #if 0
@@ -281,22 +299,6 @@ void loop() {
 #endif
 
 
-
-#if 1
-
-position_t pos;
-control_t control;
-void setup() {
-    Serial.begin(230400);
-
-    pos.setup();
-    control.setup();
-}
-void loop() {
-    pos.tick();
-    control.tick();
-}
-#endif
 
 #if 0
 
