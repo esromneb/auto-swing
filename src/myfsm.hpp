@@ -119,7 +119,7 @@ void myfsm_t<ST_T,EV_T,VP_T>::tick(void) {
             changing = false;
 
             // avoid calling NULL
-            if( record2.enter) {
+            if(record2.enter) {
                 record2.enter(*this);
             }
         }
