@@ -13,12 +13,14 @@ enum test_state_t {
     STATE_IDLE,
     STATE_GOTA,
     STATE_GOTB,
+    STATE_GOTC,
 };
 
 enum test_ev_t {
     EV_RESET,
     EV_GOTA,
     EV_GOTB,
+    EV_GOTC,
 };
 
 
@@ -50,6 +52,9 @@ static void test_fsm(void) {
                 case EV_GOTB:
                     fsm.go(STATE_GOTB);
                     break;
+                case EV_GOTC:
+                    fsm.go(STATE_GOTC);
+                    break;
             }
         };
 
@@ -70,6 +75,7 @@ static void test_fsm(void) {
             {STATE_IDLE, idle_enter, idle_process},
             {STATE_GOTB, b_enter, idle_process},
             {STATE_GOTA, a_enter, idle_process},
+            {STATE_GOTC, NULL,    idle_process},
         });
 
         fsm.postTick(EV_GOTA);
@@ -95,6 +101,9 @@ static void test_fsm(void) {
 
         RC_ASSERT(count_a == 2);
         RC_ASSERT(count_b == 2);
+
+        fsm.postTick(EV_GOTC);
+        RC_ASSERT(fsm.state == STATE_GOTC);
     });
 }
 
