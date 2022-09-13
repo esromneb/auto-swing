@@ -1,11 +1,20 @@
 #include "myfsm.hpp"
 
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
 #include <rapidcheck.h>
+#pragma GCC diagnostic pop
 
 #include <vector>
 #include <algorithm>
 #include <iostream>
 // #include <iomanip>
+
+//------------------------------------------------------------------------------
+// forward declare
+//------------------------------------------------------------------------------
+void test_control_fsm(void);
 
 using namespace std;
 
@@ -111,6 +120,7 @@ static void test_fsm(void) {
 int main(void) {
 
     test_fsm();
+    test_control_fsm();
     // cout << "in test\n";
 
     // rc::check("rc is working?", [](void) {

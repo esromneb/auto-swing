@@ -1,10 +1,13 @@
 #pragma once
 
 #include <vector>
+#include <stdint.h>
 // #include <tuple>
 
 #ifdef TEST_ENVIRONMENT
 #include <stdio.h>
+#else
+#include "myprintf.hpp"
 #endif
 
 //------------------------------------------------------------------------------
@@ -95,23 +98,31 @@ void myfsm_t<ST_T,EV_T,VP_T>::postTick(const EV_T ev) {
 
 template <typename ST_T, typename EV_T, typename VP_T>
 void myfsm_t<ST_T,EV_T,VP_T>::go(const ST_T st) {
+    // Serial.print("Going from ");
+    // Serial.print((int)state);
+    // Serial.print(" to ");
+    // Serial.println((int)st);
+    printf("Going from %ld to %ld\r\n", (long)state, (long)st);
     state = st;
     changing = true;
 }
 
 template <typename ST_T, typename EV_T, typename VP_T>
 void myfsm_t<ST_T,EV_T,VP_T>::tick(void) {
-    while(ev_q.size() != 0) {
+    while(ev_q.size() != 0 || changing) {
         const size_t sint = (size_t)state; // convert to size_t from enum
 
         const state_record_t<ST_T, EV_T, VP_T> record = states[sint];
 
-        EV_T ev = ev_q.front();
-        // printf("Got event %zu\r\n", (size_t)ev);
-        ev_q.erase(ev_q.begin());
+        if(ev_q.size()) {
+
+            EV_T ev = ev_q.front();
+            printf("Got event %ld\r\n", (long)ev);
+            ev_q.erase(ev_q.begin());
 
 
-        record.process(*this, ev);
+            record.process(*this, ev);
+        }
         if(changing) {
             const size_t sint2 = (size_t)state; // convert to size_t from enum
             const state_record_t<ST_T, EV_T, VP_T> record2 = states[sint2];

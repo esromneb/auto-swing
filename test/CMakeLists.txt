@@ -66,6 +66,7 @@ set(EMBEDDED_SOURCE_FILES
 
 set(TEST_SOURCE_FILES
     test_fsm.cpp
+    test_control_fsm.cpp
 )
 
 
@@ -75,3 +76,5 @@ include_directories(../3rd/rapidcheck/include)
 add_executable(test ${EMBEDDED_SOURCE_FILES} ${TEST_SOURCE_FILES})
 
 target_link_libraries(test rapidcheck)
+
+add_custom_target(run COMMAND ./test)

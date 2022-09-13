@@ -3,9 +3,9 @@
 #include <Servo.h>
 
 enum control_state_t {
-    STATE_IDLE,
-    STATE_CHAR,
-    STATE_DELAY_AFTER_CHAR,
+    STATE_IDLE,              // 0
+    STATE_CHAR,              // 1
+    STATE_DELAY_AFTER_CHAR,  // 2
 };
 
 enum control_ev_t {

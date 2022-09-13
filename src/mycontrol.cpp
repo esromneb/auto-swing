@@ -42,18 +42,10 @@ static void char_enter(fsm_t& fsm) {
     // int dafter = 150;
 
     if(c == 'a') {
-        // digitalWrite(3, HIGH);
-        // delay(pulse);
-        // digitalWrite(3, LOW);
-        // ledon();
         control->myservo.write(0+bumpers);
         // delay(dafter);
         fsm.go(STATE_DELAY_AFTER_CHAR);
     } else if (c == 's') {
-        // digitalWrite(5, HIGH);
-        // delay(pulse);
-        // digitalWrite(5, LOW);
-        // ledoff();
         control->myservo.write(180-bumpers);
         fsm.go(STATE_DELAY_AFTER_CHAR);
         // delay(dafter);

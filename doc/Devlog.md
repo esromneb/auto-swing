@@ -36,3 +36,6 @@ I can't get things inside the src directory to include proerly. Either it's:
 
 I think I will use blob. If things get out of hand I can go back to library or whatever else I want
 
+
+# std function and more
+Maybe use this library https://github.com/maniacbug/StandardCplusplus
