@@ -11,3 +11,6 @@ Events are encoded as zeros, with a (counting from 0) 7th column for the event t
 fake data for testing out event filtering
 
 
+# data3.csv
+ontop, event column
+Swung with finger 2 times and let come to rest

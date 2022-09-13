@@ -44,17 +44,19 @@ def filter_events(data, idx, gain=1):
 			# print(j)
 
 
+def mag(v):
+	return np.sqrt(np.sum(np.square(v)))
 
 
-o = better_open_csv('data2.csv')
+o = better_open_csv('data3.csv')
 
 # 7th colum has events in it
 # gain the events up by 1k
-filter_events(o.data, 7, 1000)
+filter_events(o.data, 7, 10000)
 
 # ax = np.array(o.data[1])
 
-if True:
+if False:
 	nplot(o.data[1], "AX")
 	nplot(o.data[2], "AY")
 	nplot(o.data[3], "AZ")
@@ -67,6 +69,19 @@ if True:
 if False:
 	nplot(o.data[1], "AX")
 	nplot(o.data[6], "GZ", False)
+
+if True:
+
+	myv = []
+	for i in range(len(o.data[0])):
+		myv.append( mag( [o.data[1][i], o.data[2][i], o.data[3][i] ] ))
+
+
+	# nplot(o.data[1], "AX"   )
+	# nplot(o.data[2], "AY"   , False)
+	# nplot(o.data[3], "AZ"   , False)
+	nplot(myv,       "as mag"   , False)
+	nplot(o.data[7], "XYZ + Event", False)
 
 
 nplotshow()
