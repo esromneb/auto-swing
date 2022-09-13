@@ -4,13 +4,13 @@ sys.path.append('sigmath')
 from sigmath import *
 
 
-o = better_open_csv('data0.csv')
+o = better_open_csv('data1.csv')
 
 
 
 # ax = np.array(o.data[1])
 
-if False:
+if True:
 	nplot(o.data[1], "AX")
 	nplot(o.data[2], "AY")
 	nplot(o.data[3], "AZ")
@@ -19,7 +19,7 @@ if False:
 	nplot(o.data[6], "GZ")
 
 
-if True:
+if False:
 	nplot(o.data[1], "AX")
 	nplot(o.data[6], "GZ", False)
 	nplotshow()

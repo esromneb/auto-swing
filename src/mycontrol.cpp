@@ -25,7 +25,7 @@ static void idle_process(fsm_t& fsm, const control_ev_t ev) {
 static void char_enter(fsm_t& fsm) {
     control_t* const control = fsm.vp;
 
-    printf("char_enter\r\n");
+    // printf("char_enter\r\n");
 
 
     char c = 'x';
@@ -33,7 +33,7 @@ static void char_enter(fsm_t& fsm) {
         c = Serial.read();
         // return;
     }
-    static char cp = ' ';
+    static char cp = 'x';
 
     // int pulse = 300;
     const int bumpers = 4;
@@ -42,17 +42,24 @@ static void char_enter(fsm_t& fsm) {
     // int dafter = 150;
 
     if(c == 'a') {
+        printf("0,0,0,0,0,0,0,2\r\n");
         control->myservo.write(0+bumpers);
         // delay(dafter);
         fsm.go(STATE_DELAY_AFTER_CHAR);
     } else if (c == 's') {
+        printf("0,0,0,0,0,0,0,3\r\n");
         control->myservo.write(180-bumpers);
         fsm.go(STATE_DELAY_AFTER_CHAR);
         // delay(dafter);
     } else {
+        if( cp != 'x' ) {
+            printf("0,0,0,0,0,0,0,1\r\n");
+        }
         control->myservo.write(90+bias);
         fsm.go(STATE_IDLE);
     }
+
+    cp = c;
 }
 
 static void char_process(fsm_t& fsm, const control_ev_t ev) {
@@ -63,7 +70,7 @@ static void char_process(fsm_t& fsm, const control_ev_t ev) {
 static void delay_enter(fsm_t& fsm) {
     control_t* const control = fsm.vp;
     control->delay_time = millis();
-    printf("delay_enter\r\n");
+    // printf("delay_enter\r\n");
 }
 
 static void delay_process(fsm_t& fsm, const control_ev_t ev) {
@@ -79,7 +86,7 @@ static void delay_process(fsm_t& fsm, const control_ev_t ev) {
 
     if( (now-control->delay_time) >= dafter ) {
         fsm.go(STATE_IDLE);
-        printf("delay_exit\r\n");
+        // printf("delay_exit\r\n");
     }
 }
 

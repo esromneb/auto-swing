@@ -98,11 +98,7 @@ void myfsm_t<ST_T,EV_T,VP_T>::postTick(const EV_T ev) {
 
 template <typename ST_T, typename EV_T, typename VP_T>
 void myfsm_t<ST_T,EV_T,VP_T>::go(const ST_T st) {
-    // Serial.print("Going from ");
-    // Serial.print((int)state);
-    // Serial.print(" to ");
-    // Serial.println((int)st);
-    printf("Going from %ld to %ld\r\n", (long)state, (long)st);
+    // printf("Going from %ld to %ld\r\n", (long)state, (long)st);
     state = st;
     changing = true;
 }
@@ -117,7 +113,7 @@ void myfsm_t<ST_T,EV_T,VP_T>::tick(void) {
         if(ev_q.size()) {
 
             EV_T ev = ev_q.front();
-            printf("Got event %ld\r\n", (long)ev);
+            // printf("Got event %ld\r\n", (long)ev);
             ev_q.erase(ev_q.begin());
 
 
