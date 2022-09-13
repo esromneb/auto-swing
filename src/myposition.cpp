@@ -66,7 +66,8 @@ void position_t::tick(void) {
     Serial.print(az); Serial.print(",");
     Serial.print(gx); Serial.print(",");
     Serial.print(gy); Serial.print(",");
-    Serial.println(gz);
+    Serial.print(gz); Serial.print(",");
+    Serial.println(0); // to account for the event column added elsewhere
 
     // #ifdef OUTPUT_READABLE_ACCELGYRO
     //     // display tab-separated accel/gyro x/y/z values

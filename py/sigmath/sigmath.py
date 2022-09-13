@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 # import zmq
 
 # from osibase import OsiBase
-from filterelement import FilterElement
+# from filterelement import FilterElement
 # from sigmathcython import *
 
 # converts string types to complex

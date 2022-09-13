@@ -7,4 +7,7 @@ No events are encoded
 Sensor was mounted ontop (not on rotation point)
 Events are encoded as zeros, with a (counting from 0) 7th column for the event type
 
+# data2.csv
+fake data for testing out event filtering
+
 
