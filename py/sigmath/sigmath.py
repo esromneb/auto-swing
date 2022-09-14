@@ -1477,6 +1477,14 @@ def better_open_csv(filename):
     file.close()
     return o
 
+# copied from
+# https://github.com/siglabsoss/riscv-baseband/blob/9e7eb7a404e495255d1c18888e142a8bb498fb53/c/inc/fixed_iir.c
+def i32_fixed_iir_16(a, b, g):
+    result = g * (b-a)>>16
+
+    result += a
+
+    return result
 
 
 ## Returns the current line number in our program.

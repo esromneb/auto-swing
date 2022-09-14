@@ -70,7 +70,7 @@ if False:
 	nplot(o.data[1], "AX")
 	nplot(o.data[6], "GZ", False)
 
-if True:
+if False:
 
 	myv = []
 	for i in range(len(o.data[0])):
@@ -82,6 +82,47 @@ if True:
 	# nplot(o.data[3], "AZ"   , False)
 	nplot(myv,       "as mag"   , False)
 	nplot(o.data[7], "XYZ + Event", False)
+
+# X,Z are the ones I want
+
+if True:
+	cdata = []
+	for i in range(len(o.data[0])):
+		cdata.append(complex(o.data[1][i], o.data[3][i]))
+	cangle = np.angle(cdata)
+
+	for i in range(len(cangle)):
+		cangle[i] -= 1
+
+	floatgain = 32768
+
+	asint = [int(x) for x in np.floor(cangle*floatgain)]
+	fstate = asint[0]
+	fgain = 7209-2000
+
+	asfilter = []
+	for i in range(len(asint)):
+		fstate = i32_fixed_iir_16(fstate, asint[i], fgain);
+		asfilter.append(fstate)
+
+	filterfloat = [x/floatgain for x in asfilter]
+
+	nplot(cangle)
+	nplot(filterfloat, "filter and not", False)
+
+	# print()
+
+
+
+if False:
+	adata = [17746.0, 17191.0, 17098.0, 17520.0, 18072.0, 18224.0, 17992.0, 17260.0, 16831.0, 16711.0, 16830.0, 16746.0, 16630.0, 16507.0, 16495.0, 16569.0, 16984.0, 17161.0, 17094.0, 17335.0, 17671.0, 17424.0, 17626.0, 17422.0, 17323.0, 17405.0, 17576.0, 17251.0, 17205.0, 17539.0, 17736.0, 17985.0]
+	adata = [int(x) for x in adata]
+	# print("hi")
+	fstate = adata[0]
+	fgain = 7209
+	for i in range(len(adata)):
+		fstate = i32_fixed_iir_16(fstate, adata[i], fgain);
+		print("%03d, %05d, %05d" % (i, adata[i], fstate))
 
 
 nplotshow()

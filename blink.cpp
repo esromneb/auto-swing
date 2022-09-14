@@ -19,7 +19,7 @@
 
 
 
-#if 1
+#if 0
 
 position_t pos;
 control_t control;
@@ -33,6 +33,42 @@ void setup() {
 void loop() {
     pos.tick();
     control.tick();
+}
+
+#endif
+
+
+
+#if 1
+
+int32_t adata[] = {17746, 17191, 17098, 17520, 18072, 18224, 17992, 17260, 16831, 16711,
+ 16830, 16746, 16630, 16507, 16495, 16569, 16984, 17161, 17094, 17335,
+ 17671, 17424, 17626, 17422, 17323, 17405, 17576, 17251, 17205, 17539,
+ 17736, 17985};
+
+
+
+void setup() {
+    Serial.begin(230400);
+    delay(1000);
+
+    int64_t fstate = adata[0];
+
+    const int32_t fgain = 7209; // 65536 * (0.11)
+
+
+    // (void)i32_fixed_iir_16;
+
+    for(int i = 0; i < ARRAY_SIZE(adata); i++) {
+
+        i32_fixed_iir_16(&fstate, adata[i], fgain);
+
+        printf("%03ld, %05ld, %05ld\r\n", (long)i, adata[i], (int32_t)fstate);
+    }
+
+
+}
+void loop() {
 }
 
 #endif
