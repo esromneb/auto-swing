@@ -49,8 +49,95 @@ void loop() {
 // 
 
 
+// Ran 1000 iterations in 81ms
+float arctan2(float y, float x)
+{
+    float coeff_1 = PI/4;
+    float coeff_2 = 3*coeff_1;
+    float abs_y = fabs(y)+1e-10;      // kludge to prevent 0/0 condition
+    float angle;
+    float r;
+    if (x>=0) {
+        r = (x - abs_y) / (x + abs_y);
+        angle = coeff_1 - coeff_1 * r;
+    } else {
+        r = (x + abs_y) / (abs_y - x);
+        angle = coeff_2 - coeff_1 * r;
+    }
+    if (y < 0)
+        return(-angle);     // negate if in quad III or IV
+    else
+        return(angle);
+}
+
+#define PI_2 (PI/2.0)
+float ApproxAtan(float z)
+{
+    const float n1 = 0.97239411f;
+    const float n2 = -0.19194795f;
+    return (n1 + n2 * z * z) * z;
+}
+
+
+// Ran 1000 iterations in 95ms
+float ApproxAtan2(float y, float x)
+{
+    if (x != 0.0f)
+    {
+        if (fabsf(x) > fabsf(y))
+        {
+            const float z = y / x;
+            if (x > 0.0)
+            {
+                // atan2(y,x) = atan(y/x) if x > 0
+                return ApproxAtan(z);
+            }
+            else if (y >= 0.0)
+            {
+                // atan2(y,x) = atan(y/x) + PI if x < 0, y >= 0
+                return ApproxAtan(z) + PI;
+            }
+            else
+            {
+                // atan2(y,x) = atan(y/x) - PI if x < 0, y < 0
+                return ApproxAtan(z) - PI;
+            }
+        }
+        else // Use property atan(y/x) = PI/2 - atan(x/y) if |y/x| > 1.
+        {
+            const float z = x / y;
+            if (y > 0.0)
+            {
+                // atan2(y,x) = PI/2 - atan(x/y) if |y/x| > 1, y > 0
+                return -ApproxAtan(z) + PI_2;
+            }
+            else
+            {
+                // atan2(y,x) = -PI/2 - atan(x/y) if |y/x| > 1, y < 0
+                return -ApproxAtan(z) - PI_2;
+            }
+        }
+    }
+    else
+    {
+        if (y > 0.0f) // x = 0, y > 0
+        {
+            return PI_2;
+        }
+        else if (y < 0.0f) // x = 0, y < 0
+        {
+            return -PI_2;
+        }
+    }
+    return 0.0f; // x,y = 0. Could return NaN instead.
+}
+
+
+
 volatile int writeout = 0;
 
+// void setup() {
+// }
 void setup() {
     Serial.begin(230400);
     delay(1000);
@@ -62,18 +149,32 @@ void setup() {
 
 
     long int a = millis();
+
+    // for(int i = 0; i < itr; i++) {
+    //     x = -2676 + i;
+    //     y = 15020;
+    //     result = atan2(y,x);
+
+    //     writeout = (int)((10000)*result);
+    // }
+
     for(int i = 0; i < itr; i++) {
         x = -2676 + i;
         y = 15020;
-        result = atan2(y,x);
+        result = ApproxAtan2(y,x);
 
         writeout = (int)((10000)*result);
     }
+    
     long int b = millis();
 
     long int delta = b-a;
 
     printf("Ran %ld iterations in %ldms\r\n", (long)itr, delta);
+
+    // for(int i = 0; i < 2048; i++) {
+    // }
+        // printf("%d\r\n", ffo_lut+10);
 
     // double result = 2.2;
 
