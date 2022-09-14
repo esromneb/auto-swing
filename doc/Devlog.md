@@ -39,3 +39,7 @@ I think I will use blob. If things get out of hand I can go back to library or w
 
 # std function and more
 Maybe use this library https://github.com/maniacbug/StandardCplusplus
+
+
+# freeze at boot
+check libraries/MPU6050-0.5.0/src/MPU6050.cpp line 65 and start debugging
