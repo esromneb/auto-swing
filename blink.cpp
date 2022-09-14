@@ -13,6 +13,7 @@
 // #include <cout>
 // #include <Wire.h>
 #include <Servo.h>
+#include <math.h>
 
 // #include "autoswinglib.hpp"
 #include "blob.hpp"
@@ -23,16 +24,19 @@
 
 position_t pos;
 control_t control;
+dsp_t dsp;
 
 void setup() {
     Serial.begin(230400);
 
     pos.setup();
     control.setup();
+    dsp.setup(&pos);
 }
 void loop() {
     pos.tick();
     control.tick();
+    dsp.tick();
 }
 
 #endif
@@ -40,6 +44,49 @@ void loop() {
 
 
 #if 1
+
+volatile int writeout = 0;
+
+void setup() {
+    Serial.begin(230400);
+    delay(1000);
+
+    float result;
+    int x, y;
+
+    int itr = 1000;
+
+
+    long int a = millis();
+    for(int i = 0; i < itr; i++) {
+        x = -2676 + i;
+        y = 15020;
+        result = atan2(y,x);
+
+        writeout = (int)((10000)*result);
+    }
+    long int b = millis();
+
+    long int delta = b-a;
+
+    printf("Ran %ld iterations in %ldms\r\n", (long)itr, delta);
+
+    // double result = 2.2;
+
+    // printf("The arc tangent is %d\r\n", (int)((10000)*result) );
+    // printf ("The arc tangent for (x=%f, y=%f) is %f degrees\n", x, y, result );
+
+
+}
+void loop() {
+}
+
+#endif
+
+
+
+
+#if 0
 
 int32_t adata[] = {17746, 17191, 17098, 17520, 18072, 18224, 17992, 17260, 16831, 16711,
  16830, 16746, 16630, 16507, 16495, 16569, 16984, 17161, 17094, 17335,

@@ -88,6 +88,7 @@ if False:
 if True:
 	cdata = []
 	for i in range(len(o.data[0])):
+		print(str(o.data[1][i]) + ' ' + str(o.data[3][i]))
 		cdata.append(complex(o.data[1][i], o.data[3][i]))
 	cangle = np.angle(cdata)
 
