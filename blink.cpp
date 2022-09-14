@@ -20,7 +20,7 @@
 
 
 
-#if 0
+#if 1
 
 position_t pos;
 control_t control;
@@ -43,7 +43,11 @@ void loop() {
 
 
 
-#if 1
+#if 0
+// atan2 with int/int
+// Ran 1000 iterations in 207ms
+// 
+
 
 volatile int writeout = 0;
 
@@ -52,7 +56,7 @@ void setup() {
     delay(1000);
 
     float result;
-    int x, y;
+    float x, y;
 
     int itr = 1000;
 
